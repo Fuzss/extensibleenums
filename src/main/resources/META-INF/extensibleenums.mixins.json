@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "package": "fuzs.extensibleenums.mixin",
+  "refmap": "META-INF/extensibleenums.refmap.json",
+  "mixins": [
+    "EnchantmentCategoryMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

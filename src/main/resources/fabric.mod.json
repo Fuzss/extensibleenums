@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "${modId}",
+  "version": "${modVersion}",
+
+  "name": "${modName}",
+  "description": "${modDescription}",
+  "authors": [
+    "${modAuthor}"
+  ],
+  "contact": {
+    "homepage": "${modPageUrl}",
+    "issues": "${modIssueUrl}",
+    "sources": "${modSourceUrl}"
+  },
+
+  "license": "Mozilla Public License 2.0",
+  "icon": "mod_logo.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "fuzs.extensibleenums.ExtensibleEnums"
+    ],
+    "client": [
+    ]
+  },
+  "mixins": [
+    "META-INF/${modId}.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=${minFabricVersion}",
+    "minecraft": ">=${minMinecraftVersion} <${nextMinecraftVersion}",
+    "java": ">=17"
+  },
+
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    }
+  }
+}
