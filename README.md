@@ -1,6 +1,6 @@
 # Extensible Enums
 
-A Minecraft mod. Downloads can be found on CurseForge.
+A Minecraft modding library. TODO: make own logo
 
 ![](https://i.imgur.com/Mlxi8cy.png)
 
@@ -70,7 +70,7 @@ A few overloads exist for this method which you should probably use, since some 
 ```
 
 #### Adding an `EnchantmentCategory`/`EnchantmentType` value
-Simply create your new enum value by calling `ExtensibleEnchantmentCategory::create` and supplying a name and a `Predicate<Item>`. The new value will not be created directly from `EnchantmentCategory`/`EnchantmentType` since the class is abstract, but instead one of the anonymous classes created by defining enum values is used.
+Simply create your new enum value by calling `ExtensibleEnchantmentCategory::create` and supplying a name and a `Predicate<Item>`. The new value will not be created directly from `EnchantmentCategory`/`EnchantmentType` since the class is abstract, but instead one of the anonymous classes created by already defined enum values is used.
 The predicate is then added via a mixin which overrides the functionality of `EnchantmentCategory::canEnchant`/`EnchantmentType::isAcceptableItem` if a predicate is present.
 
 ```java
