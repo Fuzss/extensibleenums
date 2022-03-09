@@ -20,7 +20,6 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "fuzs.extensibleenums.ExtensibleEnums"
     ],
     "client": [
     ]

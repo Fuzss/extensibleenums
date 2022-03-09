@@ -31,7 +31,8 @@ public interface ExtensibleEnchantmentCategory {
             throw new RuntimeException(e);
         }
         // some post-processing, not setting this will let the default behavior of VANISHABLE run
-//        ((ExtensibleEnchantmentCategory) enchantmentTarget).setCanApplyTo(canApplyTo);
+        // need to cast to object for some reason as compilation fails otherwise under random circumstances
+        ((ExtensibleEnchantmentCategory) (Object) enchantmentTarget).setCanApplyTo(canApplyTo);
         return enchantmentTarget;
     }
 }
