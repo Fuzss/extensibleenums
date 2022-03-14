@@ -1,8 +1,8 @@
 # Extensible Enums
 
-A Minecraft modding library. TODO: make own logo
+A Minecraft modding library.
 
-![](https://i.imgur.com/Mlxi8cy.png)
+![](https://i.imgur.com/3ShHD1D.png)
 
 ## ABOUT THE PROJECT
 This is a teeny tiny library for extending enums using the `Unsafe` class.
