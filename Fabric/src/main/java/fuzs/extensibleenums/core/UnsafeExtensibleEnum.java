@@ -1,5 +1,6 @@
 package fuzs.extensibleenums.core;
 
+import net.minecraft.world.entity.raid.Raid;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Constructor;
@@ -16,7 +17,7 @@ public class UnsafeExtensibleEnum {
     /**
      * the unsafe referent required for most operations
      */
-    private static final Unsafe UNSAFE;
+    public static final Unsafe UNSAFE;
 
     static {
         try {
@@ -89,15 +90,18 @@ public class UnsafeExtensibleEnum {
      * @throws Throwable something went wrong during unsafe operations oh no
      */
     public static <T extends Enum<T>> T invokeEnumConstructor(Class<T> enumMainClass, Class<? extends T> enumConcreteClass, String internalName, int internalId) throws Throwable {
+        T[] enumConstants1 = enumMainClass.getEnumConstants();
         T enumValue = enumMainClass.cast(UNSAFE.allocateInstance(enumConcreteClass));
         boolean addToEnumValues = internalId == -1;
         if (addToEnumValues) {
             internalId = addToEnumValues(enumMainClass, enumValue, internalName);
         }
+        T[] enumConstants = enumMainClass.getEnumConstants();
         initEnumFields(enumValue, internalName, internalId);
         if (addToEnumValues) {
             cleanEnumCache(enumMainClass);
         }
+        T[] enumConstants2 = enumMainClass.getEnumConstants();
         return enumValue;
     }
 
@@ -132,6 +136,7 @@ public class UnsafeExtensibleEnum {
                 // use more unsafe hacks here since modifying final fields no longer works via reflection
 //                field.set(null, modifiedValues);
                 setStaticField(field, modifiedValues);
+                T[] values2 = (T[]) field.get(null);
                 return values.length;
             }
         }
@@ -201,8 +206,12 @@ public class UnsafeExtensibleEnum {
      * @param enumClass enum class to clear cache for
      */
     private static void cleanEnumCache(Class<? extends Enum<?>> enumClass) {
-        findField(Class.class, "enumConstantDirectory").ifPresent(field -> setField(field, enumClass, null));
-        findField(Class.class, "enumConstants").ifPresent(field -> setField(field, enumClass, null));
+        findField(Class.class, "enumConstantDirectory").ifPresent(field -> {
+            setField(field, enumClass, null);
+        });
+        findField(Class.class, "enumConstants").ifPresent(field -> {
+            setField(field, enumClass, null);
+        });
     }
 
     /**
