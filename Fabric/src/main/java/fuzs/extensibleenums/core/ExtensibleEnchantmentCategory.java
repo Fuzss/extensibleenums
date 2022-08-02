@@ -21,6 +21,7 @@ public interface ExtensibleEnchantmentCategory {
      * @param canApplyTo which item this type can be applied to
      * @return new enum constant
      */
+    @SuppressWarnings("ConstantConditions")
     static EnchantmentCategory create(String internalName, Predicate<Item> canApplyTo) {
         EnchantmentCategory enchantmentTarget;
         try {

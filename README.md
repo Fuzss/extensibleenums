@@ -1,6 +1,6 @@
 # Extensible Enums
 
-A Minecraft modding library.
+A Minecraft modding library for Fabric, no direct downloads are available. Solely intended to be directly included in mod jars.
 
 ![](https://i.imgur.com/3ShHD1D.png)
 
@@ -23,16 +23,17 @@ Also make sure to never extend an enum that might be used in a **switch expressi
 ## DEVELOPER INFORMATION
 
 ### Adding to your workspace
-There are no precompiled jars published for this project, therefore you'll have to clone this repository yourself and publish everything to Maven Local. This is done by running the `publishMavenJavaPublicationToMavenLocal` task in Gradle (found in the `publishing` group).
-
-Then in your `build.gradle` file make sure you include the following lines to add the library. They also make sure when compiling your mod **Extensible Enums** is included as a nested jar (due to `include`), so you do not have to depend on any external dependencies. An example for replacing `${modVersion}` would be `v3.0.0-1.18.2-Fabric`.
+In your `build.gradle` file make sure you include the following lines to add the library. **Extensible Enums** is not hosted anywhere as a production jar, it is not meant to be an external dependency. When compiling your mod, **Extensible Enums** will simply be included as a nested jar (due to `include` below).
 ```groovy
 repositories {
-    mavenLocal()
+    maven {
+        name = "Fuzs Mod Resources"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
 }
 
 dependencies {
-    modImplementation include("fuzs.extensibleenums:ExtensibleEnums:${modVersion}")
+    modImplementation include("fuzs.extensibleenums:extensibleenums-fabric:<modVersion>")   // e.g. 4.0.0 for Minecraft 1.19
 }
 ```
 

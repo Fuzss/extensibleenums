@@ -11,22 +11,24 @@
   "contact": {
     "homepage": "${modPageUrl}",
     "issues": "${modIssueUrl}",
-    "sources": "${modSourceUrl}"
+    "sources": "${modPageUrl}"
   },
 
-  "license": "Mozilla Public License 2.0",
+  "license": "MPL-2",
   "icon": "mod_logo.png",
 
-  "environment": "*",
+  "environment": "${modFabricEnvironment}",
   "entrypoints": {
     "main": [
+      "${mainEntryPoint}"
     ],
     "client": [
     ]
   },
   "mixins": [
-    "META-INF/${modId}.mixins.json"
+    "${modId}.fabric.mixins.json"
   ],
+  "accessWidener" : "${modId}.accesswidener",
 
   "depends": {
     "fabricloader": ">=${minFabricVersion}",
