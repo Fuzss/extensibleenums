@@ -20,7 +20,6 @@
   "environment": "${modFabricEnvironment}",
   "entrypoints": {
     "main": [
-      "${mainEntryPoint}"
     ],
     "client": [
     ]
