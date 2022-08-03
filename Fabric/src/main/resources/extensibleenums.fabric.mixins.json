@@ -5,7 +5,8 @@
   "package": "fuzs.extensibleenums.mixin",
   "refmap": "extensibleenums.refmap.json",
   "mixins": [
-    "EnchantmentCategoryMixin"
+    "EnchantmentCategoryMixin",
+    "accessor.RaiderTypeAccessor"
   ],
   "client": [
   ],
