@@ -42,17 +42,17 @@ dependencies {
 //        parchment("org.parchmentmc.data:parchment-${minecraftVersion}:${parchmentMappingsVersion}@zip")
     }
 
-    // Fabric
-    modImplementation "net.fabricmc:fabric-loader:${fabricVersion}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
-
-    // Forge Configs
-    modImplementation "net.minecraftforge:forgeconfigapiport-fabric:4.1.2"
+//    // Fabric
+//    modImplementation "net.fabricmc:fabric-loader:${fabricVersion}"
+//    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
+//
+//    // Forge Configs
+//    modImplementation "net.minecraftforge:forgeconfigapiport-fabric:4.1.2"
 
     // Mod Menu
     modRuntimeOnly "com.terraformersmc:modmenu:4.0.5"
 
-    // Puzzles Lib
+//    // Puzzles Lib
 //    modImplementation "fuzs.puzzleslib:puzzleslib-fabric:${puzzlesVersion}"
 }
 

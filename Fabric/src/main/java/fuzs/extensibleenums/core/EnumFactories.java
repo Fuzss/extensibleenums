@@ -13,6 +13,8 @@ import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import java.util.function.Predicate;
 
 /**
+ * utility class for creating enum constants and adding them to the enum class.
+ * similar to Forge's <code>IExtensibleEnum</code>, can easily be extended if more enum types are required.
  * we return the created value not from the builder, but instead from the enum itself, so it serves as a final check everything went well
  */
 public class EnumFactories {
