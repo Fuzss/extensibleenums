@@ -1,4 +1,4 @@
-package fuzs.extensibleenums.core;
+package fuzs.extensibleenums.impl.extensibleenums;
 
 import net.minecraft.world.item.Item;
 
@@ -13,5 +13,5 @@ public interface ExtensibleEnchantmentCategory {
      * allow for setting custom behavior
      * @param canApplyTo which item this type can be applied to
      */
-    void setCanApplyTo(Predicate<Item> canApplyTo);
+    void extensibleenums$setCanApplyTo(Predicate<Item> canApplyTo);
 }

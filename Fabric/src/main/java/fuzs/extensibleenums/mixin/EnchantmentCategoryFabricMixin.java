@@ -1,6 +1,6 @@
 package fuzs.extensibleenums.mixin;
 
-import fuzs.extensibleenums.core.ExtensibleEnchantmentCategory;
+import fuzs.extensibleenums.impl.extensibleenums.ExtensibleEnchantmentCategory;
 import net.minecraft.world.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -14,19 +14,19 @@ import java.util.function.Predicate;
 // on yarn mappings this is $6 instead which also goes for the intermediary (?) name
 // this must match the enum value used in ExtensibleEnchantmentCategory
 @Mixin(targets = "net.minecraft.world.item.enchantment.EnchantmentCategory$14")
-public abstract class EnchantmentCategoryMixin implements ExtensibleEnchantmentCategory {
+abstract class EnchantmentCategoryFabricMixin implements ExtensibleEnchantmentCategory {
     @Unique
-    private Predicate<Item> canApplyTo;
+    private Predicate<Item> extensibleenums$canApplyTo;
 
     @Override
-    public void setCanApplyTo(Predicate<Item> canApplyTo) {
-        this.canApplyTo = canApplyTo;
+    public void extensibleenums$setCanApplyTo(Predicate<Item> canApplyTo) {
+        this.extensibleenums$canApplyTo = canApplyTo;
     }
 
     @Inject(method = "canEnchant(Lnet/minecraft/world/item/Item;)Z", at = @At("HEAD"), cancellable = true)
-    public void canEnchant$head(Item item, CallbackInfoReturnable<Boolean> callbackInfo) {
-        if (this.canApplyTo != null) {
-            callbackInfo.setReturnValue(this.canApplyTo.test(item));
+    public void canEnchant(Item item, CallbackInfoReturnable<Boolean> callbackInfo) {
+        if (this.extensibleenums$canApplyTo != null) {
+            callbackInfo.setReturnValue(this.extensibleenums$canApplyTo.test(item));
         }
     }
 }

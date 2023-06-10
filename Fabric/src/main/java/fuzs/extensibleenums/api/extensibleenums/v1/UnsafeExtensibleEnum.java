@@ -1,4 +1,4 @@
-package fuzs.extensibleenums.core;
+package fuzs.extensibleenums.api.extensibleenums.v1;
 
 import org.objectweb.asm.Opcodes;
 import sun.misc.Unsafe;
@@ -11,7 +11,7 @@ import java.util.*;
  * a helper class for extending enums, this uses {@link Unsafe} as reflection is no longer a viable option for extending enums in Java 12+
  * only use for enums which are not used in switch statements since they will break otherwise (mainly the newer fancy ones where the default case can be omitted)
  */
-public class UnsafeExtensibleEnum {
+public final class UnsafeExtensibleEnum {
     /**
      * the unsafe referent required for most operations
      */
@@ -26,6 +26,10 @@ public class UnsafeExtensibleEnum {
         catch (Throwable e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private UnsafeExtensibleEnum() {
+
     }
 
     /**

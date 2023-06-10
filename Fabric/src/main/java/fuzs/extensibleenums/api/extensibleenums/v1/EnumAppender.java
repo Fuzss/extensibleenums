@@ -1,4 +1,4 @@
-package fuzs.extensibleenums.core;
+package fuzs.extensibleenums.api.extensibleenums.v1;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static fuzs.extensibleenums.core.UnsafeExtensibleEnum.*;
-
 /**
  * a builder for extending enums with additional constants
  * somewhat similar to <a href="https://github.com/Chocohead/Fabric-ASM/blob/master/src/com/chocohead/mm/api/EnumAdder.java">EnumAdder.java</a>
@@ -20,7 +18,7 @@ import static fuzs.extensibleenums.core.UnsafeExtensibleEnum.*;
  *
  * @param <T>   type of enum constant
  */
-public class EnumAppender<T extends Enum<T>> {
+public final class EnumAppender<T extends Enum<T>> {
     /**
      * map for correctly handling boxed and unboxed class types
      * important to actually use the class type originally defined for the enum, not what we get from argument objects
@@ -103,7 +101,7 @@ public class EnumAppender<T extends Enum<T>> {
         Class<?>[] objectTypes = this.getObjectTypes(args);
         T enumConstant;
         try {
-            enumConstant = invokeEnumConstructor(this.enumClazz, this.enumConcreteClazz, enumConstantName);
+            enumConstant = UnsafeExtensibleEnum.invokeEnumConstructor(this.enumClazz, this.enumConcreteClazz, enumConstantName);
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
@@ -112,23 +110,23 @@ public class EnumAppender<T extends Enum<T>> {
             Object arg = args[i];
             Field field = this.fields.get(i);
             if (clazz == int.class) {
-                setIntField(field, enumConstant, (int) arg);
+                UnsafeExtensibleEnum.setIntField(field, enumConstant, (int) arg);
             } else if (clazz == boolean.class) {
-                setBooleanField(field, enumConstant, (boolean) arg);
+                UnsafeExtensibleEnum.setBooleanField(field, enumConstant, (boolean) arg);
             } else if (clazz == byte.class) {
-                setByteField(field, enumConstant, (byte) arg);
+                UnsafeExtensibleEnum.setByteField(field, enumConstant, (byte) arg);
             } else if (clazz == short.class) {
-                setShortField(field, enumConstant, (short) arg);
+                UnsafeExtensibleEnum.setShortField(field, enumConstant, (short) arg);
             } else if (clazz == char.class) {
-                setCharField(field, enumConstant, (char) arg);
+                UnsafeExtensibleEnum.setCharField(field, enumConstant, (char) arg);
             } else if (clazz == long.class) {
-                setLongField(field, enumConstant, (long) arg);
+                UnsafeExtensibleEnum.setLongField(field, enumConstant, (long) arg);
             } else if (clazz == float.class) {
-                setFloatField(field, enumConstant, (float) arg);
+                UnsafeExtensibleEnum.setFloatField(field, enumConstant, (float) arg);
             } else if (clazz == double.class) {
-                setDoubleField(field, enumConstant, (double) arg);
+                UnsafeExtensibleEnum.setDoubleField(field, enumConstant, (double) arg);
             } else {
-                setObjectField(field, enumConstant, arg);
+                UnsafeExtensibleEnum.setObjectField(field, enumConstant, arg);
             }
         }
     }
@@ -150,7 +148,7 @@ public class EnumAppender<T extends Enum<T>> {
             }
         });
         try {
-            updateRelatedSwitchStatements(this.enumClazz, switchUsers);
+            UnsafeExtensibleEnum.updateRelatedSwitchStatements(this.enumClazz, switchUsers);
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
@@ -168,7 +166,7 @@ public class EnumAppender<T extends Enum<T>> {
     private Class<?>[] getObjectTypes(Object[] args) {
         if (args.length != this.fields.size()) throw new IllegalArgumentException("Provided constructor args do not match enum description! Size %s does not match %s".formatted(args.length, this.fields.size()));
         Class<?>[] argClasses = new Class[args.length];
-        main: for (int i = 0; i < args.length; i++) {
+        $1: for (int i = 0; i < args.length; i++) {
             Class<?> fClazz = this.fields.get(i).getType();
             if (args[i] == null) {
                 argClasses[i] = fClazz;
@@ -181,7 +179,7 @@ public class EnumAppender<T extends Enum<T>> {
                         Optional<Class<?>> optional = findCommonType(oClazz, fClazz, e.getKey(), e.getValue());
                         if (optional.isPresent()) {
                             argClasses[i] = optional.get();
-                            continue main;
+                            continue $1;
                         }
                     }
                     throw new IllegalArgumentException("Class type mismatch between %s and %s".formatted(oClazz, fClazz));
@@ -381,7 +379,7 @@ public class EnumAppender<T extends Enum<T>> {
      * @param ordinal   ordinal of this type
      * @param clazz     the type
      */
-    public record FieldAccess(int ordinal, Class<?> clazz) {
+    private record FieldAccess(int ordinal, Class<?> clazz) {
 
     }
 }

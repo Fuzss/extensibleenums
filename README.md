@@ -1,6 +1,6 @@
 # Extensible Enums
 
-A Minecraft modding library for Fabric, no direct downloads are available. Solely intended to be directly included in mod jars.
+A Minecraft modding library for Fabric, no direct downloads are available. Solely intended to be included in mod jars via jar-in-jar.
 
 ![](https://i.imgur.com/3ShHD1D.png)
 

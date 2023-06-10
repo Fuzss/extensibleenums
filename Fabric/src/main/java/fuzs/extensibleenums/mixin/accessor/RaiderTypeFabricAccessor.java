@@ -6,11 +6,11 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(Raid.RaiderType.class)
-public interface RaiderTypeAccessor {
+public interface RaiderTypeFabricAccessor {
 
     @Accessor(value = "VALUES")
     @Mutable
-    static void setValues(Raid.RaiderType[] values) {
-        throw new IllegalStateException();
+    static void extensibleenums$setValues(Raid.RaiderType[] values) {
+        throw new RuntimeException();
     }
 }

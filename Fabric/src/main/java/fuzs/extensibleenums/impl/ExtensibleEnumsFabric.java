@@ -1,4 +1,4 @@
-package fuzs.extensibleenums;
+package fuzs.extensibleenums.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
