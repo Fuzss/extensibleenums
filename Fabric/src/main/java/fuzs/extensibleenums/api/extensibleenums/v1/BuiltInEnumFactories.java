@@ -23,7 +23,7 @@ import java.util.function.Predicate;
 public final class BuiltInEnumFactories {
 
     private BuiltInEnumFactories() {
-        
+
     }
 
     /**

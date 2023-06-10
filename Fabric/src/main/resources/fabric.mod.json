@@ -5,33 +5,38 @@
 
   "name": "${modName}",
   "description": "${modDescription}",
+
   "authors": [
     "${modAuthor}"
   ],
+  
   "contact": {
     "homepage": "${modPageUrl}",
     "issues": "${modIssueUrl}",
     "sources": "${modPageUrl}"
   },
 
-  "license": "MPL-2",
+  "license": "${modLicense}",
   "icon": "mod_logo.png",
 
   "environment": "${modFabricEnvironment}",
+
   "entrypoints": {
     "main": [
     ],
     "client": [
     ]
   },
+
   "mixins": [
     "${modId}.fabric.mixins.json"
   ],
+
   "accessWidener" : "${modId}.accesswidener",
 
   "depends": {
     "fabricloader": ">=${minFabricVersion}",
-    "minecraft": ">=${minMinecraftVersion} <${nextMinecraftVersion}",
+    "minecraft": "*",
     "java": ">=17"
   },
 
