@@ -117,9 +117,10 @@ public final class UnsafeExtensibleEnum {
      */
     @SuppressWarnings("unchecked")
     private static <T extends Enum<T>> int addToEnumValues(Class<T> enumMainClass, T enumValue, String internalName) throws ReflectiveOperationException {
-        final int valuesFieldModifiers = Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_FINAL | Opcodes.ACC_SYNTHETIC;
+        // don't test for final, some mixin accessor might make the field mutable, removing the flag
+        final int valuesFieldModifiers = Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC;
         for (Field field : enumMainClass.getDeclaredFields()) {
-            // we don't go looking for $VALUES field by name as Proguard might be messing with that
+            // we don't go looking for $VALUES field by name as Proguard will probably mess with that name
             if (field.getType().isArray() && (field.getModifiers() & valuesFieldModifiers) == valuesFieldModifiers) {
                 field.setAccessible(true);
                 // does not work in Java 12+ due to private field members of Field.class no longer being accessible via reflection
