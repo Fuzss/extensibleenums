@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
 import net.minecraft.world.entity.raid.Raid;
+import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -89,7 +90,7 @@ public final class BuiltInEnumFactories {
      * @param spawnsPerWaveBeforeBonus      int array with amount of spawns per wave (wave is array index, starting at 1, meaning index 0 is ignored)
      * @return                              new enum constant
      */
-    public static Raid.RaiderType createRaiderType(String internalName, EntityType<?> entityType, int[] spawnsPerWaveBeforeBonus) {
+    public static Raid.RaiderType createRaiderType(String internalName, EntityType<? extends Raider> entityType, int[] spawnsPerWaveBeforeBonus) {
         Objects.requireNonNull(internalName, "internal name is null");
         Objects.requireNonNull(entityType, "entity type is null");
         Objects.requireNonNull(spawnsPerWaveBeforeBonus, "spawns per wave before bonus is null");
