@@ -2,8 +2,10 @@ package fuzs.extensibleenums.api.extensibleenums.v1;
 
 import com.google.common.collect.ImmutableList;
 import fuzs.extensibleenums.impl.extensibleenums.ExtensibleEnchantmentCategory;
+import fuzs.extensibleenums.mixin.accessor.IllagerSpellFabricAccessor;
 import fuzs.extensibleenums.mixin.accessor.RaiderTypeFabricAccessor;
 import net.minecraft.ChatFormatting;
+import net.minecraft.util.ByIdMap;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -40,7 +42,7 @@ public final class BuiltInEnumFactories {
         Objects.requireNonNull(canApplyTo, "can apply to is null");
         // we can use any enum constant, we just need a concrete implementation of the abstract enum class
         // this needs to be the same class though as the one we add this interface to via mixins
-        new EnumAppender<>(EnchantmentCategory.class, EnchantmentCategory.VANISHABLE.getClass(), ImmutableList.of()).addEnumConstant(internalName).apply();
+        new EnumAppender<>(EnchantmentCategory.class, EnchantmentCategory.VANISHABLE.getClass(), ImmutableList.of()).addEnumConstant(internalName).applyTo();
         EnchantmentCategory enumConstant = validate(EnchantmentCategory.class, internalName);
         // some post-processing, not setting this will let the default behavior of VANISHABLE run
         // need to cast to object for some reason as compilation fails otherwise under random circumstances
@@ -58,7 +60,7 @@ public final class BuiltInEnumFactories {
     public static Rarity createRarity(String internalName, ChatFormatting color) {
         Objects.requireNonNull(internalName, "internal name is null");
         Objects.requireNonNull(color, "color is null");
-        EnumAppender.create(Rarity.class, ChatFormatting.class).addEnumConstant(internalName, color).apply();
+        EnumAppender.create(Rarity.class, ChatFormatting.class).addEnumConstant(internalName, color).applyTo();
         return validate(Rarity.class, internalName);
     }
 
@@ -78,7 +80,7 @@ public final class BuiltInEnumFactories {
         EnumAppender.create(MobCategory.class, 0, String.class, 0, int.class, 0, boolean.class, 1, boolean.class, 1, int.class, 2, int.class)
                 // noDespawnDistance has a default value of 32, but since we do not invoke a constructor the value will be missing and needs to be set manually
                 .addEnumConstant(internalName, name, maxInstancesPerChunk, isFriendly, isPersistent, 32, despawnDistance)
-                .apply();
+                .applyTo();
         return validate(MobCategory.class, internalName);
     }
 
@@ -94,10 +96,11 @@ public final class BuiltInEnumFactories {
         Objects.requireNonNull(internalName, "internal name is null");
         Objects.requireNonNull(entityType, "entity type is null");
         Objects.requireNonNull(spawnsPerWaveBeforeBonus, "spawns per wave before bonus is null");
-        EnumAppender.create(Raid.RaiderType.class, EntityType.class, int[].class).addEnumConstant(internalName, entityType, spawnsPerWaveBeforeBonus).apply();
+        EnumAppender.create(Raid.RaiderType.class, EntityType.class, int[].class).addEnumConstant(internalName, entityType, spawnsPerWaveBeforeBonus).applyTo();
+        Raid.RaiderType result = validate(Raid.RaiderType.class, internalName);
         // vanilla stores $VALUES, so we update it
         RaiderTypeFabricAccessor.extensibleenums$setValues(Raid.RaiderType.values());
-        return validate(Raid.RaiderType.class, internalName);
+        return result;
     }
 
     /**
@@ -116,8 +119,13 @@ public final class BuiltInEnumFactories {
         if (Mth.clamp(spellColorBlue, 0.0, 1.0) != spellColorBlue) throw new IllegalArgumentException("Spell color blue out of bounds: " + spellColorBlue);
         int id = SpellcasterIllager.IllagerSpell.values().length;
         double[] spellColor = {spellColorRed, spellColorGreen, spellColorBlue};
-        EnumAppender.create(SpellcasterIllager.IllagerSpell.class, int.class, double[].class).addEnumConstant(internalName, id, spellColor).apply();
-        return validate(SpellcasterIllager.IllagerSpell.class, internalName);
+        EnumAppender.create(SpellcasterIllager.IllagerSpell.class, int.class, double[].class).addEnumConstant(internalName, id, spellColor).applyTo();
+        SpellcasterIllager.IllagerSpell result = validate(SpellcasterIllager.IllagerSpell.class, internalName);
+        // vanilla uses this IntFunction to get enum values client-side for the particles, our new value is not included in the original values() field, so we need to reset this field
+        IllagerSpellFabricAccessor.extensibleenums$setById(ByIdMap.continuous(illagerSpell -> {
+            return IllagerSpellFabricAccessor.class.cast(illagerSpell).extensibleenums$getId();
+        }, SpellcasterIllager.IllagerSpell.values(), ByIdMap.OutOfBoundsStrategy.ZERO));
+        return result;
     }
 
     private static <T extends Enum<T>> T validate(Class<T> enumClazz, String internalName) {

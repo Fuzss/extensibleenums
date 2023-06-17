@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * a builder for extending enums with additional constants
  * somewhat similar to <a href="https://github.com/Chocohead/Fabric-ASM/blob/master/src/com/chocohead/mm/api/EnumAdder.java">EnumAdder.java</a>
  * main difference is this uses {@link sun.misc.Unsafe} instead of ASM
- * call {@link #apply} at the end, or nothing will be added!
+ * call {@link #applyTo} at the end, or nothing will be added!
  *
  * @param <T>   type of enum constant
  */
@@ -52,7 +52,7 @@ public final class EnumAppender<T extends Enum<T>> {
      */
     private final List<Field> fields;
     /**
-     * map of all additions, will be applied when {@link #apply} is called
+     * map of all additions, will be applied when {@link #applyTo} is called
      */
     private final Map<String, Runnable> additions = Maps.newHashMap();
 
@@ -79,7 +79,7 @@ public final class EnumAppender<T extends Enum<T>> {
 
     /**
      * adds a new enum constant,
-     * the constant is not actually created/added until {@link #apply} is called
+     * the constant is not actually created/added until {@link #applyTo} is called
      *
      * @param enumConstantName  name of the new constant, it's a good practice to have your mod id somewhere in there to be able to find the origin of this value later
      * @param args              arguments required for constructing a new enum value
@@ -138,7 +138,7 @@ public final class EnumAppender<T extends Enum<T>> {
      *
      * @param switchUsers   classes containing switch statements that need updating
      */
-    public void apply(Class<?>... switchUsers) {
+    public void applyTo(Class<?>... switchUsers) {
         if (this.additions.isEmpty()) throw new IllegalStateException("Invalid builder, no additions have been made!");
         this.additions.values().forEach(Runnable::run);
         // test that everything worked
