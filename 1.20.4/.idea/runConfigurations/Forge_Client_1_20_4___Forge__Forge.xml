@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" factoryName="Application" name="Forge Client 1.20.4 (:Forge)" type="Application">
+    <option name="MAIN_CLASS_NAME" value="dev.architectury.transformer.TransformerRuntime"/>
+    <module name="ExtensibleEnums-1.20.4.Forge.main"/>
+    <option name="PROGRAM_PARAMETERS" value="--username Player####"/>
+    <option name="VM_PARAMETERS" value="-Dfabric.dli.config=/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/Forge/.gradle/loom-cache/launch.cfg -Dfabric.dli.env=client -XstartOnFirstThread -Xms1G -Xmx4G -Dmixin.debug.export=true -XstartOnFirstThread -Djava.net.preferIPv6Addresses=system -DunionRelauncher.mainClass=net.minecraftforge.bootstrap.ForgeBootstrap -Djava.net.preferIPv6Addresses=system -DunionRelauncher.mainClass=net.minecraftforge.bootstrap.ForgeBootstrap -Dfabric.dli.main=juuxel.unionrelauncher.UnionRelauncher -Darchitectury.main.class=/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/Forge/.gradle/architectury/.main_class -Darchitectury.runtime.transformer=/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/Forge/.gradle/architectury/.transforms -Darchitectury.properties=/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/Forge/.gradle/architectury/.properties -Djdk.attach.allowAttachSelf=true -javaagent:/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/.gradle/architectury/architectury-transformer-agent.jar"/>
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Forge/../run/"/>
+    <method v="2">
+      <option enabled="true" name="Make"/>
+    </method>
+    <envs>
+      <env name="MOD_CLASSES" value="main%%/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/Forge/build/sourcesSets/main"/><env name="MCP_MAPPINGS" value="loom.stub"/>
+    </envs>
+    <shortenClasspath name="ARGS_FILE"/>
+  <classpathModifications/></configuration>
+</component>

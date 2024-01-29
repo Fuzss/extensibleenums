@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" factoryName="Application" name="Fabric Client 1.20.4 (:Fabric)" type="Application">
+    <option name="MAIN_CLASS_NAME" value="dev.architectury.transformer.TransformerRuntime"/>
+    <module name="ExtensibleEnums-1.20.4.Fabric.main"/>
+    <option name="PROGRAM_PARAMETERS" value=""/>
+    <option name="VM_PARAMETERS" value="-Dfabric.dli.config=/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/Fabric/.gradle/loom-cache/launch.cfg -Dfabric.dli.env=client -XstartOnFirstThread -Xms1G -Xmx4G -Dmixin.debug.export=true -XstartOnFirstThread -Dfabric.dli.main=net.fabricmc.loader.impl.launch.knot.KnotClient -Darchitectury.main.class=/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/Fabric/.gradle/architectury/.main_class -Darchitectury.runtime.transformer=/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/Fabric/.gradle/architectury/.transforms -Darchitectury.properties=/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/Fabric/.gradle/architectury/.properties -Djdk.attach.allowAttachSelf=true -javaagent:/Users/henning/Lokal/GitHub/extensibleenums/1.20.4/.gradle/architectury/architectury-transformer-agent.jar"/>
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Fabric/../run/"/>
+    <method v="2">
+      <option enabled="true" name="Make"/>
+    </method>
+    <envs>
+      
+    </envs>
+    <shortenClasspath name="ARGS_FILE"/>
+  <classpathModifications/></configuration>
+</component>
