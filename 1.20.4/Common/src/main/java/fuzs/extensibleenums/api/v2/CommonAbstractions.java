@@ -9,6 +9,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
 import net.minecraft.world.entity.raid.Raid;
 import net.minecraft.world.entity.raid.Raider;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -17,7 +18,8 @@ import java.util.function.Predicate;
 
 /**
  * Utility class for creating enum constants and adding them to the enum class.
- * <p>Similar to Forge's <code>net.minecraftforge.common.IExtensibleEnum</code>, can easily be extended if more enum types are required.
+ * <p>Similar to Forge's <code>net.minecraftforge.common.IExtensibleEnum</code>, can easily be extended if more enum
+ * types are required.
  */
 public class CommonAbstractions {
 
@@ -66,7 +68,8 @@ public class CommonAbstractions {
      *
      * @param identifier               name of enum constant
      * @param entityType               raider entity type
-     * @param spawnsPerWaveBeforeBonus int array with amount of spawns per wave (wave is array index, starting at 1, meaning index 0 is ignored)
+     * @param spawnsPerWaveBeforeBonus int array with amount of spawns per wave (wave is array index, starting at 1,
+     *                                 meaning index 0 is ignored)
      * @return new enum constant
      */
     @ExpectPlatform
@@ -85,5 +88,15 @@ public class CommonAbstractions {
      */
     public static SpellcasterIllager.IllagerSpell createIllagerSpell(ResourceLocation identifier, double spellColorRed, double spellColorGreen, double spellColorBlue) {
         return BuiltInEnumFactories.createIllagerSpell(identifier, spellColorRed, spellColorGreen, spellColorBlue);
+    }
+
+    /**
+     * Creates a new {@link AbstractMinecart.Type} enum constant.
+     *
+     * @param identifier name of enum constant
+     * @return new enum constant
+     */
+    public static AbstractMinecart.Type createMinecartType(ResourceLocation identifier) {
+        return BuiltInEnumFactories.createMinecartType(identifier);
     }
 }
