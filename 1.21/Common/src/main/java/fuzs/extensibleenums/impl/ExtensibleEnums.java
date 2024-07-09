@@ -10,6 +10,6 @@ public class ExtensibleEnums {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 
     public static ResourceLocation id(String path) {
-        return new ResourceLocation(MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 }

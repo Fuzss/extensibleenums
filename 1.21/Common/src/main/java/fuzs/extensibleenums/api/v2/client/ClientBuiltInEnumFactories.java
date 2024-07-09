@@ -1,12 +1,18 @@
 package fuzs.extensibleenums.api.v2.client;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import fuzs.extensibleenums.impl.client.ClientBuiltInEnumFactoriesImpl;
 import net.minecraft.client.RecipeBookCategories;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.raid.Raid;
 import net.minecraft.world.item.ItemStack;
 
-public class ClientAbstractions {
+/**
+ * Utility class for creating enum constants and adding them to the enum class.
+ */
+public interface ClientBuiltInEnumFactories {
+    /**
+     * the instance
+     */
+    ClientBuiltInEnumFactories INSTANCE = new ClientBuiltInEnumFactoriesImpl();
 
     /**
      * Create a new {@link RecipeBookCategories} enum constant.
@@ -15,8 +21,5 @@ public class ClientAbstractions {
      * @param icons                    item icons for the client recipe book, at most two
      * @return new enum constant
      */
-    @ExpectPlatform
-    public static RecipeBookCategories createRecipeBookCategory(ResourceLocation identifier, ItemStack... icons) {
-        throw new RuntimeException();
-    }
+    RecipeBookCategories createRecipeBookCategory(ResourceLocation identifier, ItemStack... icons);
 }

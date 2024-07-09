@@ -1,7 +1,6 @@
 package fuzs.extensibleenums.api.v2;
 
-import dev.architectury.injectables.annotations.ExpectPlatform;
-import fuzs.extensibleenums.impl.core.BuiltInEnumFactories;
+import fuzs.extensibleenums.impl.BuiltInEnumFactoriesImpl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -10,30 +9,16 @@ import net.minecraft.world.entity.monster.SpellcasterIllager;
 import net.minecraft.world.entity.raid.Raid;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-
-import java.util.function.Predicate;
 
 /**
  * Utility class for creating enum constants and adding them to the enum class.
- * <p>Similar to Forge's <code>net.minecraftforge.common.IExtensibleEnum</code>, can easily be extended if more enum
- * types are required.
  */
-public class CommonAbstractions {
-
+public interface BuiltInEnumFactories {
     /**
-     * Create a new {@link EnchantmentCategory} enum constant.
-     *
-     * @param identifier name of enum constant
-     * @param canApplyTo which item this type can be applied to
-     * @return new enum constant
+     * the instance
      */
-    @ExpectPlatform
-    public static EnchantmentCategory createEnchantmentCategory(ResourceLocation identifier, Predicate<Item> canApplyTo) {
-        throw new RuntimeException();
-    }
+    BuiltInEnumFactories INSTANCE = new BuiltInEnumFactoriesImpl();
 
     /**
      * Create a new {@link Rarity} enum constant.
@@ -42,10 +27,7 @@ public class CommonAbstractions {
      * @param color      chat color for item name
      * @return new enum constant
      */
-    @ExpectPlatform
-    public static Rarity createRarity(ResourceLocation identifier, ChatFormatting color) {
-        throw new RuntimeException();
-    }
+    Rarity createRarity(ResourceLocation identifier, ChatFormatting color);
 
     /**
      * Create a new {@link MobCategory} enum constant.
@@ -58,10 +40,7 @@ public class CommonAbstractions {
      * @param despawnDistance      distance from a player when despawning is possible
      * @return new enum constant
      */
-    @ExpectPlatform
-    public static MobCategory createMobCategory(ResourceLocation identifier, String name, int maxInstancesPerChunk, boolean isFriendly, boolean isPersistent, int despawnDistance) {
-        throw new RuntimeException();
-    }
+    MobCategory createMobCategory(ResourceLocation identifier, String name, int maxInstancesPerChunk, boolean isFriendly, boolean isPersistent, int despawnDistance);
 
     /**
      * Create a new {@link Raid.RaiderType} enum constant.
@@ -72,10 +51,7 @@ public class CommonAbstractions {
      *                                 meaning index 0 is ignored)
      * @return new enum constant
      */
-    @ExpectPlatform
-    public static Raid.RaiderType createRaiderType(ResourceLocation identifier, EntityType<? extends Raider> entityType, int[] spawnsPerWaveBeforeBonus) {
-        throw new RuntimeException();
-    }
+    Raid.RaiderType createRaiderType(ResourceLocation identifier, EntityType<? extends Raider> entityType, int[] spawnsPerWaveBeforeBonus);
 
     /**
      * Create a new {@link net.minecraft.world.entity.monster.SpellcasterIllager.IllagerSpell} enum constant.
@@ -86,9 +62,7 @@ public class CommonAbstractions {
      * @param spellColorBlue  blue portion for spell particle color
      * @return new enum constant
      */
-    public static SpellcasterIllager.IllagerSpell createIllagerSpell(ResourceLocation identifier, double spellColorRed, double spellColorGreen, double spellColorBlue) {
-        return BuiltInEnumFactories.createIllagerSpell(identifier, spellColorRed, spellColorGreen, spellColorBlue);
-    }
+    SpellcasterIllager.IllagerSpell createIllagerSpell(ResourceLocation identifier, double spellColorRed, double spellColorGreen, double spellColorBlue);
 
     /**
      * Creates a new {@link AbstractMinecart.Type} enum constant.
@@ -96,7 +70,5 @@ public class CommonAbstractions {
      * @param identifier name of enum constant
      * @return new enum constant
      */
-    public static AbstractMinecart.Type createMinecartType(ResourceLocation identifier) {
-        return BuiltInEnumFactories.createMinecartType(identifier);
-    }
+    AbstractMinecart.Type createMinecartType(ResourceLocation identifier);
 }
