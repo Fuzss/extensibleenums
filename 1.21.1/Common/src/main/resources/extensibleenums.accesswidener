@@ -1,0 +1,8 @@
+accessWidener   v2  named
+transitive-accessible   class   net/minecraft/world/entity/raid/Raid$RaiderType
+transitive-accessible   class   net/minecraft/world/entity/monster/SpellcasterIllager$IllagerSpell
+accessible  field   net/minecraft/world/entity/raid/Raid$RaiderType VALUES  [Lnet/minecraft/world/entity/raid/Raid$RaiderType;
+mutable field   net/minecraft/world/entity/raid/Raid$RaiderType VALUES  [Lnet/minecraft/world/entity/raid/Raid$RaiderType;
+accessible  field   net/minecraft/world/entity/monster/SpellcasterIllager$IllagerSpell  id I
+accessible  field   net/minecraft/world/entity/monster/SpellcasterIllager$IllagerSpell  BY_ID   Ljava/util/function/IntFunction;
+mutable field   net/minecraft/world/entity/monster/SpellcasterIllager$IllagerSpell  BY_ID   Ljava/util/function/IntFunction;
