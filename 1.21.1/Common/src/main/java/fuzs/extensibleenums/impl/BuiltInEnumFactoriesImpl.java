@@ -1,7 +1,8 @@
 package fuzs.extensibleenums.impl;
 
-import fuzs.extensibleenums.api.v2.core.EnumAppender;
+import com.google.common.collect.ImmutableList;
 import fuzs.extensibleenums.api.v2.BuiltInEnumFactories;
+import fuzs.extensibleenums.api.v2.core.EnumAppender;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ByIdMap;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.Rarity;
 
 import java.util.Locale;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public final class BuiltInEnumFactoriesImpl implements BuiltInEnumFactories {
 
@@ -60,9 +62,14 @@ public final class BuiltInEnumFactoriesImpl implements BuiltInEnumFactories {
         Objects.requireNonNull(entityType, "entity type is null");
         Objects.requireNonNull(spawnsPerWaveBeforeBonus, "spawns per wave before bonus is null");
         String internalName = BuiltInEnumFactoriesImpl.toInternalName(identifier);
-        EnumAppender.create(Raid.RaiderType.class, EntityType.class, int[].class).addEnumConstant(internalName,
+        ImmutableList.Builder<EnumAppender.FieldAccess> builder = ImmutableList.builder();
+        builder.add(new EnumAppender.FieldAccess(0, EntityType.class));
+        builder.add(new EnumAppender.FieldAccess(0, int[].class));
+        builder.add(new EnumAppender.FieldAccess(0, Supplier.class, true));
+        new EnumAppender<>(Raid.RaiderType.class, builder.build()).addEnumConstant(internalName,
                 entityType,
-                spawnsPerWaveBeforeBonus
+                spawnsPerWaveBeforeBonus,
+                (Supplier<EntityType<? extends Raider>>) () -> entityType
         ).applyTo();
         Raid.RaiderType result = BuiltInEnumFactoriesImpl.testEnumValueAddition(Raid.RaiderType.class, internalName);
         // vanilla stores $VALUES, so we update it
@@ -78,8 +85,12 @@ public final class BuiltInEnumFactoriesImpl implements BuiltInEnumFactories {
         int id = SpellcasterIllager.IllagerSpell.values().length;
         double[] spellColor = {spellColorRed, spellColorGreen, spellColorBlue};
         String internalName = toInternalName(identifier);
-        EnumAppender.create(SpellcasterIllager.IllagerSpell.class, int.class, double[].class).addEnumConstant(internalName, id, spellColor).applyTo();
-        SpellcasterIllager.IllagerSpell result = testEnumValueAddition(SpellcasterIllager.IllagerSpell.class, internalName);
+        EnumAppender.create(SpellcasterIllager.IllagerSpell.class, int.class, double[].class)
+                .addEnumConstant(internalName, id, spellColor)
+                .applyTo();
+        SpellcasterIllager.IllagerSpell result = testEnumValueAddition(SpellcasterIllager.IllagerSpell.class,
+                internalName
+        );
         // vanilla uses this IntFunction to get enum values client-side for the particles, our new value is not included in the original values() field, so we need to reset this field
         SpellcasterIllager.IllagerSpell.BY_ID = ByIdMap.continuous((SpellcasterIllager.IllagerSpell illagerSpell) -> {
             return illagerSpell.id;

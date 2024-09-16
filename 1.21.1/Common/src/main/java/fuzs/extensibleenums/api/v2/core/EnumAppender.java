@@ -3,6 +3,7 @@ package fuzs.extensibleenums.api.v2.core;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
@@ -59,7 +60,7 @@ public final class EnumAppender<T extends Enum<T>> {
      * @param enumClazz the enum class we wish to add a constant to
      * @param fields    fields we need to initialize
      */
-    private EnumAppender(Class<T> enumClazz, List<FieldAccess> fields) {
+    public EnumAppender(Class<T> enumClazz, List<FieldAccess> fields) {
         this(enumClazz, enumClazz, fields);
     }
 
@@ -76,10 +77,12 @@ public final class EnumAppender<T extends Enum<T>> {
      * @param enumConcreteClazz in case of <code>enumClazz</code> being abstract, this is an implementation of it (otherwise equal)
      * @param fields            fields we need to initialize
      */
-    private EnumAppender(Class<T> enumClazz, Class<? extends T> enumConcreteClazz, List<FieldAccess> fields) {
+    public EnumAppender(Class<T> enumClazz, Class<? extends T> enumConcreteClazz, List<FieldAccess> fields) {
         this.enumClazz = enumClazz;
         this.enumConcreteClazz = enumConcreteClazz;
-        this.fields = fields.stream().map(f -> findField(enumClazz, f.ordinal(), f.clazz())).collect(ImmutableList.toImmutableList());
+        this.fields = fields.stream().map((FieldAccess fieldAccess) -> {
+            return fieldAccess.getField(enumClazz);
+        }).toList();
     }
 
     /**
@@ -98,21 +101,6 @@ public final class EnumAppender<T extends Enum<T>> {
             }
         }
         return Optional.empty();
-    }
-
-    /**
-     * find a field at a given ordinal
-     *
-     * @param enumClazz the class to look for the field in
-     * @param ordinal   ordinal of this field (like with mixins)
-     * @param clazz     clazz type of the field
-     * @return the field, it must be present or an exception will be raised
-     */
-    private static Field findField(Class<? extends Enum<?>> enumClazz, int ordinal, Class<?> clazz) {
-        for (Field field : enumClazz.getDeclaredFields()) {
-            if (field.getType() == clazz && ordinal-- == 0) return field;
-        }
-        throw new IllegalStateException("No field of type %s found at ordinal %s in enum class %s".formatted(clazz, ordinal, enumClazz));
     }
 
     /**
@@ -296,8 +284,9 @@ public final class EnumAppender<T extends Enum<T>> {
         }
         for (int i = 0; i < objectTypes.length; i++) {
             Class<?> clazz = objectTypes[i];
-            Object arg = args[i];
             Field field = this.fields.get(i);
+            if (clazz == null || field == null) continue;
+            Object arg = args[i];
             if (clazz == int.class) {
                 UnsafeExtensibleEnum.setIntField(field, enumConstant, (int) arg);
             } else if (clazz == boolean.class) {
@@ -358,12 +347,13 @@ public final class EnumAppender<T extends Enum<T>> {
         Class<?>[] argClasses = new Class[args.length];
         $1:
         for (int i = 0; i < args.length; i++) {
-            Class<?> fClazz = this.fields.get(i).getType();
-            if (args[i] == null) {
+            Field field = this.fields.get(i);
+            Class<?> fClazz = field != null ? field.getType() : null;
+            if (args[i] == null || fClazz == null) {
                 argClasses[i] = fClazz;
             } else {
                 Class<?> oClazz = args[i].getClass();
-                if (oClazz == fClazz) {
+                if (fClazz.isAssignableFrom(oClazz)) {
                     argClasses[i] = fClazz;
                 } else {
                     for (Map.Entry<Class<?>, Class<?>> e : PRIMITIVE_TYPES.entrySet()) {
@@ -386,7 +376,33 @@ public final class EnumAppender<T extends Enum<T>> {
      * @param ordinal ordinal of this type
      * @param clazz   the type
      */
-    private record FieldAccess(int ordinal, Class<?> clazz) {
+    public record FieldAccess(int ordinal, Class<?> clazz, boolean optional) {
 
+        public FieldAccess(int ordinal, Class<?> clazz) {
+            this(ordinal, clazz, false);
+        }
+
+        /**
+         * find a field at a given ordinal
+         *
+         * @param enumClazz the class to look for the field in
+         * @param ordinal   ordinal of this field (like with mixins)
+         * @param clazz     clazz type of the field
+         * @return the field, it must be present or an exception will be raised
+         */
+        @Nullable
+        Field getField(Class<? extends Enum<?>> enumClazz) {
+            int ordinal = this.ordinal;
+            for (Field field : enumClazz.getDeclaredFields()) {
+                if (field.getType() == this.clazz && ordinal-- == 0) {
+                    return field;
+                }
+            }
+            if (!this.optional) {
+                throw new IllegalStateException("No field of type %s found at ordinal %s in enum class %s".formatted(this.clazz, this.ordinal, enumClazz));
+            } else {
+                return null;
+            }
+        }
     }
 }
