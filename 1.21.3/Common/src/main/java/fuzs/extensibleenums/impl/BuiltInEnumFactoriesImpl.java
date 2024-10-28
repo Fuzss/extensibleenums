@@ -11,7 +11,6 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
 import net.minecraft.world.entity.raid.Raid;
 import net.minecraft.world.entity.raid.Raider;
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.Rarity;
 
 import java.util.Locale;
@@ -31,27 +30,11 @@ public final class BuiltInEnumFactoriesImpl implements BuiltInEnumFactories {
     @Override
     public MobCategory createMobCategory(ResourceLocation identifier, String name, int maxInstancesPerChunk, boolean isFriendly, boolean isPersistent, int despawnDistance) {
         String internalName = BuiltInEnumFactoriesImpl.toInternalName(identifier);
-        EnumAppender.create(MobCategory.class,
-                        0,
-                        String.class,
-                        0,
-                        int.class,
-                        0,
-                        boolean.class,
-                        1,
-                        boolean.class,
-                        1,
-                        int.class,
-                        2,
-                        int.class
+        EnumAppender.create(MobCategory.class, 0, String.class, 0, int.class, 0, boolean.class, 1, boolean.class, 1,
+                        int.class, 2, int.class
                 )
                 // noDespawnDistance has a default value of 32, but since we do not invoke a constructor the value will be missing and needs to be set manually
-                .addEnumConstant(internalName,
-                        name,
-                        maxInstancesPerChunk,
-                        isFriendly,
-                        isPersistent,
-                        32,
+                .addEnumConstant(internalName, name, maxInstancesPerChunk, isFriendly, isPersistent, 32,
                         despawnDistance
                 ).applyTo();
         return BuiltInEnumFactoriesImpl.testEnumValueAddition(MobCategory.class, internalName);
@@ -66,10 +49,8 @@ public final class BuiltInEnumFactoriesImpl implements BuiltInEnumFactories {
         builder.add(new EnumAppender.FieldAccess(0, EntityType.class));
         builder.add(new EnumAppender.FieldAccess(0, int[].class));
         builder.add(new EnumAppender.FieldAccess(0, Supplier.class, true));
-        new EnumAppender<>(Raid.RaiderType.class, builder.build()).addEnumConstant(internalName,
-                entityType,
-                spawnsPerWaveBeforeBonus,
-                (Supplier<EntityType<? extends Raider>>) () -> entityType
+        new EnumAppender<>(Raid.RaiderType.class, builder.build()).addEnumConstant(internalName, entityType,
+                spawnsPerWaveBeforeBonus, (Supplier<EntityType<? extends Raider>>) () -> entityType
         ).applyTo();
         Raid.RaiderType result = BuiltInEnumFactoriesImpl.testEnumValueAddition(Raid.RaiderType.class, internalName);
         // vanilla stores $VALUES, so we update it
@@ -85,9 +66,8 @@ public final class BuiltInEnumFactoriesImpl implements BuiltInEnumFactories {
         int id = SpellcasterIllager.IllagerSpell.values().length;
         double[] spellColor = {spellColorRed, spellColorGreen, spellColorBlue};
         String internalName = toInternalName(identifier);
-        EnumAppender.create(SpellcasterIllager.IllagerSpell.class, int.class, double[].class)
-                .addEnumConstant(internalName, id, spellColor)
-                .applyTo();
+        EnumAppender.create(SpellcasterIllager.IllagerSpell.class, int.class, double[].class).addEnumConstant(
+                internalName, id, spellColor).applyTo();
         SpellcasterIllager.IllagerSpell result = testEnumValueAddition(SpellcasterIllager.IllagerSpell.class,
                 internalName
         );
@@ -102,13 +82,6 @@ public final class BuiltInEnumFactoriesImpl implements BuiltInEnumFactories {
         if (spellColor < 0.0 || spellColor > 1.0) {
             throw new IllegalArgumentException("Spell color %s out of bounds: %s".formatted(color, spellColor));
         }
-    }
-
-    @Override
-    public AbstractMinecart.Type createMinecartType(ResourceLocation identifier) {
-        String internalName = toInternalName(identifier);
-        EnumAppender.create(AbstractMinecart.Type.class).addEnumConstant(internalName).applyTo();
-        return testEnumValueAddition(AbstractMinecart.Type.class, internalName);
     }
 
     public static <T extends Enum<T>> T testEnumValueAddition(Class<T> enumClazz, String internalName) {

@@ -8,7 +8,6 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
 import net.minecraft.world.entity.raid.Raid;
 import net.minecraft.world.entity.raid.Raider;
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.Rarity;
 
 /**
@@ -63,12 +62,4 @@ public interface BuiltInEnumFactories {
      * @return new enum constant
      */
     SpellcasterIllager.IllagerSpell createIllagerSpell(ResourceLocation identifier, double spellColorRed, double spellColorGreen, double spellColorBlue);
-
-    /**
-     * Creates a new {@link AbstractMinecart.Type} enum constant.
-     *
-     * @param identifier name of enum constant
-     * @return new enum constant
-     */
-    AbstractMinecart.Type createMinecartType(ResourceLocation identifier);
 }
