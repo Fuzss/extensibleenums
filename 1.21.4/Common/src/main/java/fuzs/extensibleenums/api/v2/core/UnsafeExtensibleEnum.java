@@ -29,7 +29,7 @@ public final class UnsafeExtensibleEnum {
     }
 
     private UnsafeExtensibleEnum() {
-
+        // NO-OP
     }
 
     /**
