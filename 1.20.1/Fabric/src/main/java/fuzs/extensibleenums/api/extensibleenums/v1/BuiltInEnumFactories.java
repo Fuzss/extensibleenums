@@ -1,8 +1,10 @@
-package fuzs.extensibleenums.api.v1;
+package fuzs.extensibleenums.api.extensibleenums.v1;
 
 import fuzs.extensibleenums.api.v2.CommonAbstractions;
 import fuzs.extensibleenums.impl.ExtensibleEnums;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.SpellcasterIllager;
@@ -12,7 +14,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
-import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -35,7 +36,7 @@ public final class BuiltInEnumFactories {
      */
     @SuppressWarnings("ConstantConditions")
     public static EnchantmentCategory createEnchantmentCategory(String internalName, Predicate<Item> canApplyTo) {
-        return CommonAbstractions.createEnchantmentCategory(ExtensibleEnums.id(internalName), canApplyTo);
+        return CommonAbstractions.createEnchantmentCategory(id(internalName), canApplyTo);
     }
 
     /**
@@ -46,7 +47,7 @@ public final class BuiltInEnumFactories {
      * @return new enum constant
      */
     public static Rarity createRarity(String internalName, ChatFormatting color) {
-        return CommonAbstractions.createRarity(ExtensibleEnums.id(internalName), color);
+        return CommonAbstractions.createRarity(id(internalName), color);
     }
 
     /**
@@ -61,7 +62,7 @@ public final class BuiltInEnumFactories {
      * @return new enum constant
      */
     public static MobCategory createMobCategory(String internalName, String name, int maxInstancesPerChunk, boolean isFriendly, boolean isPersistent, int despawnDistance) {
-        return CommonAbstractions.createMobCategory(ExtensibleEnums.id(internalName),
+        return CommonAbstractions.createMobCategory(id(internalName),
                 name,
                 maxInstancesPerChunk,
                 isFriendly,
@@ -79,9 +80,7 @@ public final class BuiltInEnumFactories {
      * @return new enum constant
      */
     public static Raid.RaiderType createRaiderType(String internalName, EntityType<? extends Raider> entityType, int[] spawnsPerWaveBeforeBonus) {
-        return CommonAbstractions.createRaiderType(ExtensibleEnums.id(internalName),
-                entityType,
-                spawnsPerWaveBeforeBonus);
+        return CommonAbstractions.createRaiderType(id(internalName), entityType, spawnsPerWaveBeforeBonus);
     }
 
     /**
@@ -94,16 +93,10 @@ public final class BuiltInEnumFactories {
      * @return new enum constant
      */
     public static SpellcasterIllager.IllagerSpell createIllagerSpell(String internalName, double spellColorRed, double spellColorGreen, double spellColorBlue) {
-        return CommonAbstractions.createIllagerSpell(ExtensibleEnums.id(internalName),
-                spellColorRed,
-                spellColorGreen,
-                spellColorBlue);
+        return CommonAbstractions.createIllagerSpell(id(internalName), spellColorRed, spellColorGreen, spellColorBlue);
     }
 
-    private static <T extends Enum<T>> T validate(Class<T> enumClazz, String internalName) {
-        for (T enumConstant : enumClazz.getEnumConstants()) {
-            if (Objects.equals(enumConstant.name(), internalName)) return enumConstant;
-        }
-        throw new IllegalStateException("Failed to add %s to %s".formatted(internalName, enumClazz));
+    private static ResourceLocation id(String path) {
+        return ExtensibleEnums.id(Util.sanitizeName(path, ResourceLocation::validPathChar));
     }
 }

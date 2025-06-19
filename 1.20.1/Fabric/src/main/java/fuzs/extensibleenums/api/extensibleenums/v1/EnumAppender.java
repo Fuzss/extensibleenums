@@ -1,4 +1,4 @@
-package fuzs.extensibleenums.api.v1;
+package fuzs.extensibleenums.api.extensibleenums.v1;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

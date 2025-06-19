@@ -1,4 +1,4 @@
-package fuzs.extensibleenums.api.v1;
+package fuzs.extensibleenums.api.extensibleenums.v1;
 
 import org.objectweb.asm.Opcodes;
 import sun.misc.Unsafe;
